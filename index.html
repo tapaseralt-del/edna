@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Para Mamãe 💖</title>
+
+<style>
+/* corpo da página */
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
+  overflow-y: auto; /* permite scroll no celular */
+  -webkit-overflow-scrolling: touch; /* suaviza scroll no iPhone */
+  background: linear-gradient(180deg, #FFD6E8, #FFB6C1, #FF8DAA);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* estrelas */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  opacity:0.8;
+  border-radius:50%;
+  animation:twinkle 3s infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:0.3;}
+  50%{opacity:1;}
+}
+
+/* envelope 3D */
+.scene{
+  perspective:1000px;
+}
+.envelope{
+  width:500px;
+  height:350px;
+  max-width:100%;
+  background:#ff4d6d;
+  border-radius:15px;
+  position:relative;
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transition:1s;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 25px 50px rgba(0,0,0,0.5);
+}
+.flap{
+  position:absolute;
+  top:0;
+  width:0;
+  height:0;
+  border-left:250px solid transparent;
+  border-right:250px solid transparent;
+  border-top:175px solid #ff758f;
+  transform-origin:top;
+  transition:1s;
+}
+.envelope.open .flap{
+  transform:rotateX(180deg);
+}
+.letter{
+  position:absolute;
+  width:90%;
+  height:90%;
+  background:white;
+  border-radius:10px;
+  padding:25px;
+  box-sizing:border-box;
+  text-align:center;
+  font-size:17px;
+  transform:translateY(40px);
+  opacity:0;
+  transition:1s;
+  line-height:1.6;
+  overflow: auto;
+}
+.envelope.open .letter{
+  transform:translateY(-20px);
+  opacity:1;
+}
+
+/* corações */
+.heart{
+  position:absolute;
+  font-size:25px;
+  animation:explode 2s linear forwards;
+}
+@keyframes explode{
+  0%{transform:scale(0);opacity:1;}
+  100%{transform:translate(var(--x),var(--y)) scale(1.5);opacity:0;}
+}
+
+/* 📱 ajustes para mobile */
+@media (max-width: 600px){
+  .envelope{
+    width:90%;
+    height:auto;
+  }
+  .flap{
+    border-left:45% solid transparent;
+    border-right:45% solid transparent;
+    border-top:50% solid #ff758f;
+  }
+  .letter{
+    font-size:20px; /* texto maior no celular */
+    padding:20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- música controlada via JS -->
+<audio id="musica" loop>
+  <source src="Churrasquinho do Menos é Mais - Melhor eu ir_Ligando os Fatos_Sonho de Amor_Deixa eu te querer [zKAAFsovtM4].mp3" type="audio/mpeg">
+</audio>
+
+<div class="scene">
+  <div class="envelope" onclick="abrirCarta(this)">
+    <div class="flap"></div>
+    <div class="letter">
+      <p>Mamãe, você é a mulher mais incrível do mundo.</p>
+      <p>Todo amor, cuidado e carinho que você sempre me deu fazem de você a minha inspiração diária.</p>
+      <p>Hoje é o seu dia, e eu quero que você se sinta tão especial quanto realmente é.</p>
+      <p>Obrigado por tudo que faz por mim e por ser a mulher da minha vida. 💖</p>
+      <p>Feliz Dia das Mulheres! Que seu dia seja cheio de alegria, amor e momentos inesquecíveis.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function abrirCarta(el){
+  el.classList.toggle("open");
+  explodirCoracoes();
+
+  let audio = document.getElementById("musica");
+  if(el.classList.contains("open")){
+    audio.play();
+  } else {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+}
+
+/* criar estrelas */
+for(let i=0;i<120;i++){
+  let star=document.createElement("div");
+  star.classList.add("star");
+  star.style.left=Math.random()*100+"vw";
+  star.style.top=Math.random()*100+"vh";
+  document.body.appendChild(star);
+}
+
+/* explosão de corações */
+function explodirCoracoes(){
+  for(let i=0;i<40;i++){
+    let heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="💖";
+    heart.style.left="50%";
+    heart.style.top="50%";
+    heart.style.setProperty("--x",(Math.random()*400-200)+"px");
+    heart.style.setProperty("--y",(Math.random()*400-200)+"px");
+    document.body.appendChild(heart);
+    setTimeout(()=>{heart.remove();},2000);
+  }
+}
+</script>
+
+</body>
+</html>
